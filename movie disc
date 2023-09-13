@@ -1,0 +1,104 @@
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+   const int MAX_TITLE_CHARS = 44;  // Maximum length of movie titles
+   const int LINE_LIMIT = 100;   // Maximum length of each line in the text file
+   char line[LINE_LIMIT];
+   char inputFileName[25];
+   
+   scanf("%s", inputFileName);
+   
+   char* showtime= (char*)malloc(100*sizeof(char));
+   char* title=(char*)malloc(MAX_TITLE_CHARS*sizeof(char)+1);
+   char* rating=(char*)malloc(10*sizeof(char));;
+   // char newline[LINE_LIMIT];
+   char* prevtitle=(char*)malloc(MAX_TITLE_CHARS*sizeof(char)); 
+   // char final[
+   
+   
+   FILE* inputFile=fopen(inputFileName, "r");
+   // int count=0;
+   // int indextime=0;
+   // while(!feof(inputFile)){
+   //    fgets(line, sizeof(line), inputFile);
+      
+   //    count=0;
+   //    // int indextime=0;
+    
+   //    for(int i=0; i<sizeof(line); i++){
+   //       int index=0;
+   //       if(line[i]==','){
+   //          count++;
+   //          index=0;
+   //          continue;
+   //       }
+   //       if (count==0){
+   //          showtime[indextime]=line[i];
+   //          indextime++;
+   //          // index++;
+   //       }
+   //       if (count==1){
+   //          title[index]=line[i];;
+   //          index++;
+   //       }
+   //       if (count==2){
+   //          rating[index]=line[i];;
+   //          index++;
+   //       }
+   //    }
+   //    showtime[indextime]=' ';
+   //    indextime++;
+   //    if(strcmp(prevtitle, title)==0 ){
+
+   //       for(int i=0; i<strlen(line); i++){
+   //       if(line[i]==','){
+   //          // count++;
+   //          // indextime=0;
+   //          break;
+   //       }
+   //       if (line[i]!=','){
+   //          showtime[indextime]=line[i];;
+   //          indextime++;
+   //       }
+   //       }
+   //    }
+   //    else if(strcmp(prevtitle, title)!=0){
+   //       printf(" %s | %s | %s \n", title, rating, showtime);
+   //       for(int i=0; i<indextime; i++){
+   //          showtime[i]=' ';
+   //       }
+   //       indextime=0;
+   //    }
+   //    strcpy(prevtitle, title);
+      
+   // }
+   int count=0;
+      while(fgets(line, sizeof(line), inputFile)){
+         sscanf(line, "%[^,],%[^,],%[^\n]", showtime, title, rating);
+         
+         if (strlen(title)>MAX_TITLE_CHARS){
+            title[MAX_TITLE_CHARS]='\0';
+         }
+         if (strcmp(prevtitle, title)!=0 && count==0){
+           printf("%-44s | %5s | %s", title, rating, showtime); 
+            
+         strcpy(prevtitle, title);
+         }
+         else if (strcmp(prevtitle, title)!=0 && count!=0){
+           printf("\n%-44s | %5s | %s", title, rating, showtime); 
+            
+         strcpy(prevtitle, title);
+         }
+         else {
+            printf(" %s", showtime);
+         }
+         count++;
+      }
+   printf("\n");
+   
+   fclose(inputFile);
+
+   return 0;
+}
